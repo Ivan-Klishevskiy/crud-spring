@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+</head>
+<body>
+<form action="#" th:action="@{/calc}" th:object="${calcModel}" method="post">
+    <input type="number" th:field="*{first}" placeholder="First value">
+
+    <input type="text" th:field="*{sign}" placeholder="Sign">
+
+    <input type="number" th:field="*{second}" placeholder="Second">
+
+    <button>Submit</button>
+    <p th:if="resultValue" th:text="'Result = ' + ${resultValue}"></p>
+</form>
+<ul>
+    <li th:each="record :${history}" th:text="${record}"></li>
+</ul>
+</body>
+</html>
