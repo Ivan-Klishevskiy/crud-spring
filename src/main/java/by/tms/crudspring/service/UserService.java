@@ -1,18 +1,21 @@
 package by.tms.crudspring.service;
 
 
-import by.tms.crudspring.dao.InMemoryUserDao;
+import by.tms.crudspring.dao.HibernateUserDao;
 import by.tms.crudspring.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Component
+@Service
+@Transactional
 public class UserService {
 
     @Autowired
-    private InMemoryUserDao InMemoryUserDao;
+    private HibernateUserDao userDao;
 
 
     public boolean save(String name, String username, String password) {
@@ -20,8 +23,8 @@ public class UserService {
         user.setName(name);
         user.setPassword(password);
         user.setUsername(username);
-        if(InMemoryUserDao.findByUsername(user.getUsername()) ==null){
-            InMemoryUserDao.save(user);
+        if(userDao.findByUsername(user.getUsername()) ==null){
+            userDao.save(user);
             return true;
         }else {
             return false;
@@ -29,14 +32,14 @@ public class UserService {
     }
 
     public User findByUsername(String username){
-        return InMemoryUserDao.findByUsername(username);
+        return userDao.findByUsername(username);
     }
 
     private List<User> findAll(){
-        return InMemoryUserDao.findAll();
+        return userDao.findAll();
     }
 
     public void deleteUser(User user){
-        InMemoryUserDao.deleteUser(user);
+        userDao.deleteUser(user);
     }
 }
